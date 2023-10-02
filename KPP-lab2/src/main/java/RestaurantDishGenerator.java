@@ -19,12 +19,12 @@ public class RestaurantDishGenerator {
             // Add more if needed...
     };
 
-    private static final MenuType[] menuTypes = {
-            new MenuType("Vegetarian"),
-            new MenuType("Children's"),
-            new MenuType("Seafood"),
-            new MenuType("Steakhouse"),
-            new MenuType("Pasta"),
+     static final MenuType[] menuTypes = {
+            new MenuType(1,"Vegetarian"),
+            new MenuType(2, "Children's"),
+            new MenuType(3, "Seafood"),
+            new MenuType(4, "Steakhouse"),
+            new MenuType(5, "Pasta"),
             // Add more if needed...
     };
 

@@ -1,3 +1,3 @@
 package RestaurantDish;
 
-public record MenuType(String name) {}
+public record MenuType(int Id, String name) {}

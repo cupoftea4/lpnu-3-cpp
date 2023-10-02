@@ -17,9 +17,9 @@ public class RestaurantDishes {
         Arrays.sort(dishes, comparator);
     }
 
-    public Dish[] findByType(Set<Integer> typeIds) {
+    public Dish[] findByMenuTypeIds(Set<Integer> typeIds) {
         return Arrays.stream(dishes)
-                .filter(dish -> typeIds.contains(dish.type().ID()))
+                .filter(dish -> typeIds.contains(dish.menuType().Id()))
                 .toArray(Dish[]::new);
     }
 }

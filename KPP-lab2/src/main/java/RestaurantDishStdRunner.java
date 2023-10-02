@@ -3,22 +3,21 @@ import java.util.Comparator;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import RestaurantDish.Dish;
 
 public class RestaurantDishStdRunner {
     private static final Scanner scanner = new Scanner(System.in);
     public static void run() {
-        System.out.println("Welcome to the Restaurant Dish Runner!");
+        System.out.println("Welcome to the Restaurant!");
 
         int numberOfDishes = 0;
         while (numberOfDishes <= 0) {
-            System.out.print("Enter the number of dishes (must be a positive integer): ");
+            System.out.print("Enter the number of dishes: ");
             if (scanner.hasNextInt()) {
                 numberOfDishes = scanner.nextInt();
                 if (numberOfDishes <= 0) {
-                    System.out.println("Please enter a positive integer.");
+                    System.out.println("It's a restaurant, not some kind of poor diner");
                 }
             } else {
                 System.out.println("Invalid input. Please enter a positive integer.");
@@ -36,7 +35,7 @@ public class RestaurantDishStdRunner {
         while (true) {
             System.out.println("\nWhat would you like to do?");
             System.out.println("1. Sort Dishes");
-            System.out.println("2. Find Dishes by Type");
+            System.out.println("2. Find Dishes by Menu Type");
             System.out.println("3. View All Dishes");
             System.out.println("4. Exit");
             System.out.print("Enter your choice (1/2/3/4): ");
@@ -77,22 +76,22 @@ public class RestaurantDishStdRunner {
     }
 
     private static void findAndPrint(RestaurantDishes dishes) {
-        System.out.println("\nAvailable Types of Dishes:");
+        System.out.println("\nAvailable Menu Types:");
 
-        var dishTypes = RestaurantDishGenerator.dishTypes;
-        IntStream.range(0, dishTypes.length)
-                .mapToObj(i -> (i + 1) + ". " + dishTypes[i].typeName())
+        var menuTypes = RestaurantDishGenerator.menuTypes;
+        Arrays.stream(menuTypes)
+                .map(type -> type.Id() + ". " + type.name())
                 .forEach(System.out::println);
 
         System.out.print("Enter the type(s) of dishes to find (' ' separated): ");
         String typeInput = scanner.nextLine();
-        String[] typeIndices = typeInput.split(" ");
-        Set<Integer> selectedIndices = Arrays.stream(typeIndices)
+        String[] typeIds = typeInput.split(" ");
+        Set<Integer> selectedIds = Arrays.stream(typeIds)
                 .map(Integer::parseInt)
                 .collect(Collectors.toSet());
 
-        System.out.println("\nMatching Dishes by Type:");
-        print(dishes.findByType(selectedIndices));
+        System.out.println("\nMatching Dishes by Menu Type:");
+        print(dishes.findByMenuTypeIds(selectedIds));
     }
 
     private static Comparator<Dish> getComparator(int[] sortingChoices, boolean isAsc) {
@@ -123,7 +122,7 @@ public class RestaurantDishStdRunner {
     }
 
     private static void finish() {
-        System.out.println("Goodbye!");
+        System.out.println("It was great to see you! Good luck!");
         scanner.close();
         System.exit(0);
     }

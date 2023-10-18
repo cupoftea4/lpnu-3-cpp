@@ -1,0 +1,10 @@
+John Doe,Manager,Manages the team,55000.50,1985
+Jane Smith,Developer,Develops software,65000.75,1990
+Bob Johnson,Designer,Designs interfaces,50000.25,1988
+Alice Williams,HR,Handles recruitment,52000.00,1986
+Charlie Brown,QA,Tests software,58000.00,1992
+Eva Green,Finance,Handles company accounts,57000.30,1989
+Frank Castle,Sales,Manages client relationships,60000.00,1987
+Grace Lee,Support,Helps customers with issues,49000.50,1991
+Hank Moody,Marketing,Promotes products,63000.50,1993
+Ivy Queen,Admin,Manages office operations,51000.25,1984

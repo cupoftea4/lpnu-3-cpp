@@ -1,0 +1,3 @@
+John Doe,Manager,Manages the team,55000.50,1985
+Jane Smith,Developer,Develops software,65000.75,1990
+Bob Johnson,Designer,Designs interfaces,50000.25,1988

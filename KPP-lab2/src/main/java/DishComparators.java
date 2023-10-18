@@ -2,7 +2,7 @@ import RestaurantDish.Dish;
 
 import java.util.Comparator;
 
-public class DishComparatorsFactory {
+public class DishComparators {
 
     private static class DishNameComparator implements Comparator<Dish> {
         @Override
@@ -20,7 +20,7 @@ public class DishComparatorsFactory {
     }
 
     public static Comparator<Dish> byMenuType(){
-        return new Comparator<Dish>() {
+        return new Comparator<>() {
             @Override
             public int compare(Dish o1, Dish o2) {
                 return o1.menuType().name().compareTo(o2.menuType().name());

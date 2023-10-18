@@ -1,13 +1,14 @@
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import RestaurantDish.Dish;
 
 public class RestaurantDishStdRunner {
     private static final Scanner scanner = new Scanner(System.in);
+
     public static void run() {
         System.out.println("Welcome to the Restaurant!");
 
@@ -30,8 +31,7 @@ public class RestaurantDishStdRunner {
         chooseOperation(dishes);
     }
 
-    private static void chooseOperation(RestaurantDishes dishes){
-        //noinspection InfiniteLoopStatement
+    private static void chooseOperation(RestaurantDishes dishes) {
         while (true) {
             System.out.println("\nWhat would you like to do?");
             System.out.println("1. Sort Dishes");
@@ -44,11 +44,20 @@ public class RestaurantDishStdRunner {
             scanner.nextLine();
 
             switch (choice) {
-                case 1 -> sortAndPrint(dishes);
-                case 2 -> findAndPrint(dishes);
-                case 3 -> print(dishes.getDishes());
-                case 4 -> finish();
-                default -> System.out.println("Invalid choice. Please enter 1, 2, 3, or 4.");
+                case 1:
+                    sortAndPrint(dishes);
+                    break;
+                case 2:
+                    findAndPrint(dishes);
+                    break;
+                case 3:
+                    print(dishes.getDishes());
+                    break;
+                case 4:
+                    finish();
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please enter 1, 2, 3, or 4.");
             }
         }
     }
@@ -67,9 +76,12 @@ public class RestaurantDishStdRunner {
 
         String[] sortingChoiceArray = sortingChoices.split(" ");
         Arrays.sort(sortingChoiceArray);
-        var chosenSortingChoices = Arrays.stream(sortingChoiceArray)
-                .mapToInt(Integer::parseInt)
-                .toArray();
+
+        int[] chosenSortingChoices = new int[sortingChoiceArray.length];
+        for (int i = 0; i < sortingChoiceArray.length; i++) {
+            chosenSortingChoices[i] = Integer.parseInt(sortingChoiceArray[i]);
+        }
+
         dishes.sort(getComparator(chosenSortingChoices, !reverse));
         System.out.println("\nSorted Dishes:");
         print(dishes.getDishes());
@@ -79,16 +91,17 @@ public class RestaurantDishStdRunner {
         System.out.println("\nAvailable Menu Types:");
 
         var menuTypes = RestaurantDishGenerator.menuTypes;
-        Arrays.stream(menuTypes)
-                .map(type -> type.Id() + ". " + type.name())
-                .forEach(System.out::println);
+        for (var type : menuTypes) {
+            System.out.println(type.Id() + ". " + type.name());
+        }
 
         System.out.print("Enter the type(s) of dishes to find (' ' separated): ");
         String typeInput = scanner.nextLine();
         String[] typeIds = typeInput.split(" ");
-        Set<Integer> selectedIds = Arrays.stream(typeIds)
-                .map(Integer::parseInt)
-                .collect(Collectors.toSet());
+        Set<Integer> selectedIds = new HashSet<>();
+        for (String typeId : typeIds) {
+            selectedIds.add(Integer.parseInt(typeId));
+        }
 
         System.out.println("\nMatching Dishes by Menu Type:");
         print(dishes.findByMenuTypeIds(selectedIds));
@@ -98,13 +111,13 @@ public class RestaurantDishStdRunner {
         Comparator<Dish> tempComp, result = null;
         for (int choice : sortingChoices) {
             tempComp = switch (choice) {
-                case 1 -> DishComparatorsFactory.byName();
-                case 2 -> DishComparatorsFactory.byDishType();
-                case 3 -> DishComparatorsFactory.byMenuType();
-                case 4 -> DishComparatorsFactory.byPrice();
+                case 1 -> DishComparators.byName();
+                case 2 -> DishComparators.byDishType();
+                case 3 -> DishComparators.byMenuType();
+                case 4 -> DishComparators.byPrice();
                 default -> null;
             };
-            result = result != null ? DishComparatorsFactory.byTwoComparators(result, tempComp) : tempComp;
+            result = result != null ? DishComparators.byTwoComparators(result, tempComp) : tempComp;
         }
         if (!isAsc) {
             assert result != null;
@@ -118,7 +131,9 @@ public class RestaurantDishStdRunner {
         System.out.printf("%-5s | %-30s | %-20s | %-10s | %-10s%n", "ID", "Name", "Type", "Price", "Menu Type");
         System.out.println("-".repeat(85));
 
-        Arrays.stream(dishes).forEach(System.out::println);
+        for (Dish dish : dishes) {
+            System.out.println(dish);
+        }
     }
 
     private static void finish() {

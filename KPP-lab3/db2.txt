@@ -8,3 +8,5 @@ Frank Castle,Sales,Manages client relationships,60000.00,1987
 Grace Lee,Support,Helps customers with issues,49000.50,1991
 Hank Moody,Marketing,Promotes products,63000.50,1993
 Ivy Queen,Admin,Manages office operations,51000.25,1984
+Hank1 Moody,Marketing,Promotes products,63000.50,1994
+Ivy1 Queen,Admin,Manages office operations,51000.25,1985

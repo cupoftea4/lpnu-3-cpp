@@ -1,0 +1,10 @@
+NewYork,LosAngeles,08:00,11:00,2450,300
+LosAngeles,Chicago,12:00,16:30,1750,220
+NewYork,Chicago,09:00,11:45,800,150
+Chicago,Miami,17:00,20:30,1300,180
+Miami,NewYork,21:00,23:45,1100,160
+LosAngeles,Miami,13:00,20:00,2340,290
+NewYork,Boston,10:00,11:15,200,90
+Boston,Chicago,12:30,15:00,1000,130
+Chicago,Denver,14:00,15:30,920,110
+Denver,LosAngeles,16:00,17:45,850,100

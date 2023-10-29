@@ -2,16 +2,16 @@ import java.io.IOException;
 import java.util.*;
 import Employee.*;
 
-public class Menu {
+public class Runner {
     private final EmployeeCollectionsController controller;
     private List<Employee> employees;
 
-    public Menu() {
+    public Runner() {
         controller = new EmployeeCollectionsController();
         employees = new ArrayList<>();
     }
 
-    public void displayMenu() {
+    public void displayTerminalMenu() {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Welcome to the Employee Utility!");
@@ -39,10 +39,11 @@ public class Menu {
             System.out.println("Menu:");
             System.out.println("1. Print employees list");
             System.out.println("2. Print a map of employees by position");
-            System.out.println("3. Find the most and least senior employees for each position");
-            System.out.println("4. Print a map of employees by salary category");
-            System.out.println("5. Delete employees by minimal birth year and print");
-            System.out.println("6. Exit");
+            System.out.println("3. Find the youngest and the oldest employees for each position");
+            System.out.println("4. Print a map of employees by the salary category");
+            System.out.println("5. Delete employees by minimal birth year (read from user) and print");
+            System.out.println("6. Get salary sum by position");
+            System.out.println("7. Bye");
             System.out.print("Enter your choice: ");
 
             int choice = scanner.nextInt();
@@ -66,6 +67,8 @@ public class Menu {
                             controller.deleteFromListByMinYear(employees, getYearFromUser(scanner)));
                     break;
                 case 6:
+                    controller.printSalarySumByPosition(employees);
+                case 7:
                     System.out.println("Exiting the program.");
                     scanner.close();
                     return;
@@ -80,7 +83,7 @@ public class Menu {
         System.out.print("Enter the minimal birth year for delete:");
         while (true){
             int year = scanner.nextInt();
-            if(year<0){
+            if(year < 0){
                 System.out.println("Invalid year, try again");
                 scanner.nextLine();
             }
@@ -109,7 +112,7 @@ public class Menu {
             employees = FileReader.readEmployeeData(filePath1);
             var tempEmployees = FileReader.readEmployeeData(filePath2);
             employees = EmployeeCollectionsController.mergeTwoLists(employees,tempEmployees);
-        }catch (IOException e){
+        } catch (IOException e) {
             System.out.println(e.getMessage());
         }
 

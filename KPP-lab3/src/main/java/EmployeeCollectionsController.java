@@ -11,14 +11,33 @@ public class EmployeeCollectionsController {
                         Employee::position,
                         Collectors.toList()
                 ));
-        for (EmployeePosition employeePosition:employeePositionListMap.keySet()
+        for (EmployeePosition employeePosition : employeePositionListMap.keySet()
              ) {
             var employeeList = employeePositionListMap.get(employeePosition);
             Optional<Employee> maxAge = employeeList.stream().min(Comparator.comparingInt((Employee o) -> o.birthYear()));
             Optional<Employee> minAge = employeeList.stream().max(Comparator.comparingInt((Employee o) -> o.birthYear()));
             System.out.println(
                     "Minimal and maximal age for position:"+employeePosition.name()+
-                            "/nMin: " + minAge + "/nMax: " + maxAge);
+                            "\nMin: " + minAge.orElseThrow().name() + "\nMax: " + maxAge.orElseThrow().name());
+        }
+    }
+
+    public void printSalarySumByPosition(List<Employee> employees) {
+        var map = new HashMap<EmployeePosition, List<Employee>>();
+        for (var employee : employees) {
+            EmployeePosition position = employee.position();
+            if (!map.containsKey(position)) {
+                map.put(position, new ArrayList<Employee>());
+            }
+            map.get(position).add(employee);
+        }
+        for (EmployeePosition employeePosition : map.keySet()) {
+            List<Employee> list = map.get(employeePosition);
+            var sum = 0.0;
+            for (var employee : list) {
+                sum += employee.salary();
+            }
+            System.out.println(employeePosition.name() + ": " + sum);
         }
     }
 
@@ -30,7 +49,7 @@ public class EmployeeCollectionsController {
                 )));
     }
 
-    private void printPositionEmployeeMap( Map<EmployeePosition, List<Employee>> stringListMap){
+    private void printPositionEmployeeMap(Map<EmployeePosition, List<Employee>> stringListMap){
         for (Map.Entry<EmployeePosition, List<Employee>> entry : stringListMap.entrySet()) {
             EmployeePosition category = entry.getKey();
             List<Employee> employeesInCategory = entry.getValue();
@@ -48,7 +67,7 @@ public class EmployeeCollectionsController {
                 .mapToDouble(Employee::salary)
                 .max()
                 .orElse(0.0);
-        float separator = (maxSalary - minSalary)/3;
+        float separator = (maxSalary - minSalary) / 3;
         double range1End = minSalary + separator;
         double range2End = range1End + separator;
         Map<String, List<Employee>> salaryMap = employees.stream()
@@ -65,7 +84,7 @@ public class EmployeeCollectionsController {
         printSalaryEmployeeMap(salaryMap);
     }
 
-    private void printSalaryEmployeeMap( Map<String, List<Employee>> stringListMap){
+    private void printSalaryEmployeeMap(Map<String, List<Employee>> stringListMap){
         for (Map.Entry<String, List<Employee>> entry : stringListMap.entrySet()) {
             String category = entry.getKey();
             List<Employee> employeesInCategory = entry.getValue();
@@ -75,10 +94,10 @@ public class EmployeeCollectionsController {
         }
     }
 
-    public static List<Employee> mergeTwoLists(List<Employee> aEmployeeList,List<Employee> bEmployeeList){
-        Set<Employee> aSet = new LinkedHashSet<>(aEmployeeList);
-        aSet.addAll(bEmployeeList);
-        return new ArrayList<>(aSet);
+    public static List<Employee> mergeTwoLists(List<Employee> employeeList1,List<Employee> employeeList2){
+        Set<Employee> set1 = new LinkedHashSet<>(employeeList1);
+        set1.addAll(employeeList2);
+        return new ArrayList<>(set1);
     }
 
     public List<Employee> deleteFromListByMinYear(List<Employee> list,int year){
@@ -87,10 +106,7 @@ public class EmployeeCollectionsController {
 
     public static void printEmployeeList(List<Employee> employees){
         System.out.printf("%-20s|%-30s|%-40s|%10s|%4s|%n", "Name", "Position", "Description", "Salary", "Year");
-        System.out.println("--------------------------------------------------" +
-                "-----------------------------------------------------------");
-        for (Employee employee : employees) {
-            System.out.println(employee);
-        }
+        System.out.println("-".repeat(114));
+        employees.forEach(System.out::println);
     }
 }
